@@ -19,21 +19,7 @@ public class ConsumerThread extends Thread {
     public void run() {
         int i = 0;
         while (i < 100) {
-            synchronized (programmer) {
-                if (!programmer.hasData) {
-                    try {
-                        programmer.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                System.out.println("消费线程==" + programmer.name + "消费数据了---" + programmer.age);
-                programmer.name = null;
-                programmer.age = 0;
-                i++;
-                programmer.hasData = false;
-                programmer.notify();
-            }
+            programmer.get();
         }
     }
 }

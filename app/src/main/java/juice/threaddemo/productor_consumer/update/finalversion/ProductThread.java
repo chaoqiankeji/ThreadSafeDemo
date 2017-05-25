@@ -18,26 +18,12 @@ public class ProductThread extends Thread {
     @Override
     public void run() {
         while (x < 100) {
-            synchronized (programmer) {
-                if (programmer.hasData) {
-                    try {
-                        programmer.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (x % 2 == 0) {   //偶数
-                    programmer.name = "诸葛亮";
-                    programmer.age = 47;
-                } else {
-                    programmer.name = "司马懿";
-                    programmer.age = 52;
-                }
-                x++;
-                System.out.println("生产线程==" + programmer.name + "生产数据了---" + programmer.age);
-                programmer.hasData = true;
-                programmer.notify();
+            if (x % 2 == 0) {   //偶数
+                programmer.set("诸葛", 47);
+            } else {
+                programmer.set("司马", 52);
             }
+            x++;
         }
     }
 }
